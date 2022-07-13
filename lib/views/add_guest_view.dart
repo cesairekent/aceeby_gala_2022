@@ -7,29 +7,34 @@ import 'package:aceeby_gala_2022/shared/widgets/forms/text_input_field.dart';
 import 'package:aceeby_gala_2022/view_models/base_view_model.dart';
 import 'package:aceeby_gala_2022/view_models/guest_view_model.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
-class AddGuestView extends StatefulWidget {
+class AddGuestView extends StatefulWidget
+{
   const AddGuestView({Key? key}) : super(key: key);
 
   @override
   State<AddGuestView> createState() => _AddGuestViewState();
 }
 
-class _AddGuestViewState extends State<AddGuestView> {
-  final items = [
+class _AddGuestViewState extends State<AddGuestView>
+{
+  final items =
+  [
     "COUPLE",
     "SIMPLE",
   ];
-  final GlobalKey<FormBuilderState> _addGuestFormKey =
-      GlobalKey<FormBuilderState>();
+  final GlobalKey<FormBuilderState> _addGuestFormKey = GlobalKey<FormBuilderState>();
+
   @override
-  Widget build(BuildContext context) {
-    var userVM = context.watch<GuestVM>();
+  Widget build(BuildContext context)
+  {
+    var guestVM = context.watch<GuestVM>();
     var baseVM = context.watch<BaseVM>();
 
     return Scaffold(
@@ -117,6 +122,9 @@ class _AddGuestViewState extends State<AddGuestView> {
                                     FormBuilderValidators.required(
                                       errorText: 'Ce champ est requis',
                                     ),
+                                    FormBuilderValidators.numeric(
+                                      errorText: 'Seuls les chiffres sont autorisés'
+                                    ),
                                   ],
                                 ),
                               ),
@@ -158,9 +166,15 @@ class _AddGuestViewState extends State<AddGuestView> {
               borderColor: HexColor(AppColors.primary),
               textColor: HexColor(AppColors.white),
               btnText: 'Ajouter',
-              onPressed: () async {
+              onPressed: () async
+              {
                 baseVM.showLoading();
-                if (_addGuestFormKey.currentState!.saveAndValidate()) {}
+                if (_addGuestFormKey.currentState!.saveAndValidate())
+                {
+                  if (kDebugMode) {
+                    print(_addGuestFormKey.currentState!.value);
+                  }
+                }
                 baseVM.hideLoading();
               },
             ),

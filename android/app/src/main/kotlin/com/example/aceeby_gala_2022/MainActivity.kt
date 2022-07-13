@@ -1,4 +1,4 @@
-package com.example.aceeby_gala_2022
+package com.mastermindsarl.aceeby_gala_2022
 
 import io.flutter.embedding.android.FlutterActivity
 
