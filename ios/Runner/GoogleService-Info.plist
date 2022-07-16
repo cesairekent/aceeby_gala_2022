@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>521307839291-34h3o9ohun3kuokl435u7cbe6lrqe39t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.521307839291-34h3o9ohun3kuokl435u7cbe6lrqe39t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAaiRa0UEK12IjwFHvg-LGD4iV2aKQ_pLs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>521307839291</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.mastermindsarl.aceebyGala2022</string>
+	<key>PROJECT_ID</key>
+	<string>aceeby2022</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aceeby2022.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:521307839291:ios:508ce3c29013e9b24e751e</string>
+</dict>
+</plist>

@@ -3,6 +3,7 @@ import 'package:aceeby_gala_2022/core/app_font_size.dart';
 import 'package:aceeby_gala_2022/shared/widgets/buttons/basic_btn.dart';
 import 'package:aceeby_gala_2022/shared/widgets/buttons/loading_btn.dart';
 import 'package:aceeby_gala_2022/shared/widgets/forms/dropdown_input_field.dart';
+import 'package:aceeby_gala_2022/shared/widgets/forms/table_dropdown_input_field.dart';
 import 'package:aceeby_gala_2022/shared/widgets/forms/text_input_field.dart';
 import 'package:aceeby_gala_2022/view_models/base_view_model.dart';
 import 'package:aceeby_gala_2022/view_models/guest_view_model.dart';
@@ -14,26 +15,23 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
-class AddGuestView extends StatefulWidget
-{
+class AddGuestView extends StatefulWidget {
   const AddGuestView({Key? key}) : super(key: key);
 
   @override
   State<AddGuestView> createState() => _AddGuestViewState();
 }
 
-class _AddGuestViewState extends State<AddGuestView>
-{
-  final items =
-  [
+class _AddGuestViewState extends State<AddGuestView> {
+  final items = [
     "COUPLE",
     "SIMPLE",
   ];
-  final GlobalKey<FormBuilderState> _addGuestFormKey = GlobalKey<FormBuilderState>();
+  final GlobalKey<FormBuilderState> _addGuestFormKey =
+      GlobalKey<FormBuilderState>();
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     var guestVM = context.watch<GuestVM>();
     var baseVM = context.watch<BaseVM>();
 
@@ -123,21 +121,19 @@ class _AddGuestViewState extends State<AddGuestView>
                                       errorText: 'Ce champ est requis',
                                     ),
                                     FormBuilderValidators.numeric(
-                                      errorText: 'Seuls les chiffres sont autorisés'
-                                    ),
+                                        errorText:
+                                            'Seuls les chiffres sont autorisés'),
                                   ],
                                 ),
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
-                              DropdownInputField(
-                                name: 'guest_table',
+                              TableDropdownInputField(
                                 labelText: 'Table',
                                 hintText: 'Choisissez la table',
-                                onSaved: (value) {},
-                                onChanged: (value) {},
-                                items: items,
+                                onSaved: (value){},
+                                onChanged: (value){},
                               ),
                               const SizedBox(
                                 height: 20,
@@ -166,13 +162,18 @@ class _AddGuestViewState extends State<AddGuestView>
               borderColor: HexColor(AppColors.primary),
               textColor: HexColor(AppColors.white),
               btnText: 'Ajouter',
-              onPressed: () async
-              {
+              onPressed: () async {
                 baseVM.showLoading();
-                if (_addGuestFormKey.currentState!.saveAndValidate())
-                {
+                if (_addGuestFormKey.currentState!.saveAndValidate()) {
                   if (kDebugMode) {
                     print(_addGuestFormKey.currentState!.value);
+                  }
+                  var response = await guestVM
+                      .addGuest(_addGuestFormKey.currentState!.value);
+
+                  if (response == true) {
+                    if (!mounted) return;
+                    Navigator.pop(context);
                   }
                 }
                 baseVM.hideLoading();

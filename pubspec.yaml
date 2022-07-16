@@ -48,6 +48,8 @@ dependencies:
   hexcolor: ^2.0.6
   pull_to_refresh_flutter3: ^2.0.1
   fab_circular_menu: ^1.0.2
+  firebase_core: ^1.19.1
+  cloud_firestore: ^3.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,16 +1,18 @@
 import 'package:aceeby_gala_2022/core/app_colors.dart';
-import 'package:aceeby_gala_2022/core/app_font_size.dart';
 import 'package:aceeby_gala_2022/models/guest_model.dart';
+import 'package:aceeby_gala_2022/services/guest_service.dart';
 import 'package:aceeby_gala_2022/shared/widgets/cards/guest_card.dart';
 import 'package:aceeby_gala_2022/view_models/base_view_model.dart';
 import 'package:aceeby_gala_2022/view_models/guest_view_model.dart';
 import 'package:aceeby_gala_2022/views/add_guest_view.dart';
+import 'package:aceeby_gala_2022/views/table_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -20,27 +22,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  //List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8"];
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-
-  void _onRefresh() async {
-    // monitor network fetch
-    await Future.delayed(const Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    // monitor network fetch
-    await Future.delayed(const Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-    //items.add((items.length + 1).toString());
-    if (mounted) {
-      setState(() {});
-    }
-    _refreshController.loadComplete();
-  }
+  final GuestService guestService = GuestService();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +58,6 @@ class _HomeViewState extends State<HomeView> {
                   builder: (context) => const AddGuestView(),
                 ),
               );
-              print('Add Guess');
             },
           ),
           IconButton(
@@ -85,7 +66,9 @@ class _HomeViewState extends State<HomeView> {
               color: HexColor(AppColors.white),
             ),
             onPressed: () {
-              print('Search Guess');
+              if (kDebugMode) {
+                print('Search Guess');
+              }
             },
           ),
           IconButton(
@@ -94,66 +77,45 @@ class _HomeViewState extends State<HomeView> {
               color: HexColor(AppColors.white),
             ),
             onPressed: () {
-              print('Table List');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TableView(),
+                ),
+              );
             },
           ),
         ],
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 15),
-        child: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: true,
-          header: const WaterDropHeader(),
-          footer: CustomFooter(
-            builder: (context, mode) {
-              Widget body;
-              if (mode == LoadStatus.idle) {
-                body = const Text("pull up load");
-              } else if (mode == LoadStatus.loading) {
-                body = const CircularProgressIndicator.adaptive();
-              } else if (mode == LoadStatus.failed) {
-                body = const Text("Load Failed!Click retry!");
-              } else if (mode == LoadStatus.canLoading) {
-                body = const Text("release to load more");
-              } else {
-                body = const Text("No more Data");
-              }
-              return SizedBox(
-                height: 55.0,
-                child: Center(child: body),
-              );
-            },
-          ),
-          controller: _refreshController,
-          onRefresh: _onRefresh,
-          onLoading: _onLoading,
-          child: guestVM.guestList.isNotEmpty
-              ? ListView.builder(
-                  itemBuilder: (c, i) => GuestCard(
-                    user: guestVM.guestList[i],
-                    onTap: () {
-                      print('Tapped');
-                      _showGuestDetailDialog(context, guestVM.guestList[i]);
-                    },
-                  ),
-                  itemExtent: 100.0,
-                  itemCount: guestVM.guestList.length,
-                )
-              : Center(
-                  child: Text(
-                    'Aucun Invité',
-                    style: TextStyle(
-                      fontSize: AppFontSize.h4,
-                      fontWeight: FontWeight.w600,
-                      color: HexColor(
-                        AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ),
+        child: StreamBuilder<QuerySnapshot>
+        (
+          stream: guestVM.guestService.getStream(),
+          builder: (context, snapshot)
+          {
+            if (!snapshot.hasData) return const LinearProgressIndicator();
+            return _buildList(context, snapshot.data?.docs ?? []);
+          },
         ),
       ),
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<DocumentSnapshot>? snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 20.0),
+      children: snapshot!.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot snapshot) {
+    final guest = GuestModel.fromSnapshot(snapshot);
+    return GuestCard(
+      user: guest,
+      onTap: () {
+        _showGuestDetailDialog(context, guest);
+      },
     );
   }
 

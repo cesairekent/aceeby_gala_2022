@@ -14,43 +14,48 @@ class GuestCard extends StatelessWidget
       : super(key: key);
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        child: Column(
-          children: <Widget>
-          [
-            AutoSizeText(
-              user.fullName,
-              style: TextStyle(
-                fontSize: AppFontSize.h6,
-                color: HexColor(AppColors.primary),
-                fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10.0,
+            vertical: 8.0,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AutoSizeText(
+                user.fullName,
+                style: TextStyle(
+                  fontSize: AppFontSize.h6,
+                  color: HexColor(AppColors.primary),
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 1,
               ),
-              maxLines: 1,
-            ),
-            const SizedBox(height: 10),
-            AutoSizeText(
-              'Billet ${user.invitationCardType}',
-              style: TextStyle(
-                fontSize: AppFontSize.h6,
-                fontWeight: FontWeight.normal,
-                color: HexColor(AppColors.gray),
+              const SizedBox(height: 5),
+              AutoSizeText(
+                'Billet ${user.invitationCardType}',
+                style: TextStyle(
+                  fontSize: AppFontSize.h6,
+                  fontWeight: FontWeight.normal,
+                  color: HexColor(AppColors.gray),
+                ),
+                maxLines: 1,
               ),
-              maxLines: 1,
-            ),
-            const SizedBox(height: 10),
-            AutoSizeText(
-              'Table ${user.table!.tableName} (${user.table!.tableNumber})',
-              style: TextStyle(
-                fontSize: AppFontSize.h6,
-                color: HexColor(AppColors.gray),
-                fontWeight: FontWeight.normal,
+              const SizedBox(height: 5),
+              AutoSizeText(
+                'Table ${user.table?.tableName} (${user.table?.tableNumber})',
+                style: TextStyle(
+                  fontSize: AppFontSize.h6,
+                  color: HexColor(AppColors.gray),
+                  fontWeight: FontWeight.normal,
+                ),
+                maxLines: 1,
               ),
-              maxLines: 1,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

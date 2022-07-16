@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "521307839291",
+    "project_id": "aceeby2022",
+    "storage_bucket": "aceeby2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521307839291:android:61d1d3936888c6a44e751e",
+        "android_client_info": {
+          "package_name": "com.mastermindsarl.aceeby_gala_2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521307839291-5fh9tlo21vc5f7f8qf5c8rk5qrdrdefc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfw8abpQGTBw0q7xv23eqhwT5R-rotj20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521307839291-5fh9tlo21vc5f7f8qf5c8rk5qrdrdefc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "521307839291-34h3o9ohun3kuokl435u7cbe6lrqe39t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mastermindsarl.aceebyGala2022"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
