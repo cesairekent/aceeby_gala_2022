@@ -32,19 +32,9 @@ class TableDropdownInputField extends StatefulWidget {
       _TableDropdownInputFieldState();
 }
 
-class _TableDropdownInputFieldState extends State<TableDropdownInputField> {
-  List<String> countries = [
-    "Canada",
-    "Russia",
-    "USA",
-    "China",
-    "United Kingdom",
-    "USA",
-    "India"
-  ];
+class _TableDropdownInputFieldState extends State<TableDropdownInputField>
+{
   var seen = Set<TableModel>();
-  // List<String> uniquelist =
-  //     countries.where((country) => seen.add(country)).toList();
 
   @override
   Widget build(BuildContext context) {
